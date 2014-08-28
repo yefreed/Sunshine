@@ -1,5 +1,7 @@
 package com.dittaconsulting.android.sunshine.app;
 
+import android.app.Application;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,8 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +48,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ArrayList<String> forecasts = new ArrayList<String>();
         forecasts.add("Today - Sunny - 88/63");
         forecasts.add("Tomorrow - Foggy - 70/46");
@@ -54,9 +58,14 @@ public class ForecastFragment extends Fragment {
         forecasts.add("Sat - Sunny - 76/68");
         adapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview,forecasts);
 
-        ListView forecast_list_view = (ListView)rootView.findViewById(R.id.listview_forecast);
+        final ListView forecast_list_view = (ListView)rootView.findViewById(R.id.listview_forecast);
         forecast_list_view.setAdapter(adapter);
-
+        forecast_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText((Context)getActivity().getApplicationContext(), (CharSequence) forecast_list_view.getAdapter().getItem(i),Toast.LENGTH_LONG).show();
+            }
+        });
 
         return rootView;
     }
