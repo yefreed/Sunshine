@@ -2,6 +2,7 @@ package com.dittaconsulting.android.sunshine.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import java.util.Date;
 public class ForecastFragment extends Fragment {
 
     private ArrayAdapter<String> adapter;
+    public final static String FORECAST_DATA = "com.dittaconsulting.android.sunshine.FORECAST_DATA";
 
     public ForecastFragment() {
     }
@@ -63,7 +65,11 @@ public class ForecastFragment extends Fragment {
         forecast_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText((Context)getActivity().getApplicationContext(), (CharSequence) forecast_list_view.getAdapter().getItem(i),Toast.LENGTH_LONG).show();
+                Intent detailActivityIntent;
+                detailActivityIntent = new Intent(getActivity(),DetailActivity.class);
+                detailActivityIntent.putExtra(FORECAST_DATA,(CharSequence) forecast_list_view.getAdapter().getItem(i));
+                startActivity(detailActivityIntent);
+                //Toast.makeText((Context)getActivity().getApplicationContext(), (CharSequence) forecast_list_view.getAdapter().getItem(i),Toast.LENGTH_LONG).show();
             }
         });
 
